@@ -1,0 +1,79 @@
+{
+    "level1":[
+        {
+            "x": 110,
+            "y": 360,
+            "direction": "N" 
+        },
+        {
+            "x": 110,
+            "y": 150,
+            "direction": "E" 
+        },
+        {
+            "x": 450,
+            "y": 150,
+            "direction": "N" 
+        },
+        {
+            "x": 450,
+            "y": 56,
+            "direction": "E" 
+        },
+        {
+            "x": 700,
+            "y": 56,
+            "direction": "S" 
+        },
+        {
+            "x": 700,
+            "y": 356,
+            "direction": "O" 
+        },
+        {
+            "x": 620,
+            "y": 356,
+            "direction": "N" 
+        },
+        {
+            "x": 620,
+            "y": 150,
+            "direction": "O" 
+        },
+        {
+            "x": 538,
+            "y": 150,
+            "direction": "S" 
+        },
+        {
+            "x": 538,
+            "y": 356,
+            "direction": "O" 
+        },
+        {
+            "x": 450,
+            "y": 356,
+            "direction": "N" 
+        },
+        {
+            "x": 450,
+            "y": 236,
+            "direction": "O" 
+        },
+        {
+            "x": 366,
+            "y": 236,
+            "direction": "S" 
+        },
+        {
+            "x": 366,
+            "y": 318,
+            "direction": "O" 
+        },
+        {
+            "x": 260,
+            "y": 318,
+            "direction": "END" 
+        }
+    ]
+}

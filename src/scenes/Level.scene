@@ -1,0 +1,106 @@
+{
+    "id": "01aefa93-6044-4159-8358-7e91310aa05f",
+    "sceneType": "SCENE",
+    "settings": {
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "Level"
+    },
+    "displayList": [
+        {
+            "type": "Image",
+            "id": "6bbe450d-2b29-4aea-9318-c54dd6fb5ff8",
+            "label": "background",
+            "components": [],
+            "texture": {
+                "key": "background"
+            },
+            "x": 386,
+            "y": 221
+        },
+        {
+            "type": "Image",
+            "id": "cb9a7c91-62a6-4723-96b9-9d68db6af4de",
+            "label": "path",
+            "components": [],
+            "texture": {
+                "key": "path"
+            },
+            "x": 366,
+            "y": 210
+        },
+        {
+            "type": "Image",
+            "id": "276afd1d-cea1-4543-8a89-8e7a20eb66b9",
+            "label": "towerSpots",
+            "components": [],
+            "texture": {
+                "key": "towerSpots"
+            },
+            "x": 366,
+            "y": 232
+        },
+        {
+            "type": "Image",
+            "id": "1b70f2c1-5094-4f05-be86-d8544ed513dd",
+            "label": "microship",
+            "components": [],
+            "texture": {
+                "key": "microship"
+            },
+            "x": 32,
+            "y": 422
+        },
+        {
+            "type": "Image",
+            "id": "9deceae9-efc0-4e9c-8441-a893c6bf1c0f",
+            "label": "microship_3",
+            "components": [],
+            "texture": {
+                "key": "microship"
+            },
+            "x": 159,
+            "y": 439
+        },
+        {
+            "type": "Image",
+            "id": "3a1793d5-79ac-4d22-ad2b-2ad8a646b600",
+            "label": "microship_1",
+            "components": [],
+            "texture": {
+                "key": "microship"
+            },
+            "x": 487,
+            "y": 466
+        },
+        {
+            "type": "Image",
+            "id": "fed293df-59ff-45ff-9bb2-2c19bea50b72",
+            "label": "microship_2",
+            "components": [],
+            "texture": {
+                "key": "microship"
+            },
+            "x": 612,
+            "y": 466
+        },
+        {
+            "type": "Image",
+            "id": "abca362f-4684-4634-885e-49a5409aad2b",
+            "label": "shadow",
+            "components": [],
+            "texture": {
+                "key": "shadow"
+            },
+            "x": 384,
+            "y": 245
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor 2D - Scene Editor",
+        "url": "https://phasereditor2d.com",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 2
+    }
+}

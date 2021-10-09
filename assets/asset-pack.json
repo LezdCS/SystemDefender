@@ -1,0 +1,38 @@
+{
+    "section1": {
+        "files": [
+            {
+                "url": "assets/background.png",
+                "type": "image",
+                "key": "background"
+            },
+            {
+                "url": "assets/microship.png",
+                "type": "image",
+                "key": "microship"
+            },
+            {
+                "url": "assets/path.png",
+                "type": "image",
+                "key": "path"
+            },
+            {
+                "url": "assets/shadow.png",
+                "type": "image",
+                "key": "shadow"
+            },
+            {
+                "url": "assets/towerSpots.png",
+                "type": "image",
+                "key": "towerSpots"
+            }
+        ]
+    },
+    "meta": {
+        "app": "Phaser Editor 2D - Asset Pack Editor",
+        "contentType": "phasereditor2d.pack.core.AssetContentType",
+        "url": "https://phasereditor2d.com",
+        "version": 2,
+        "showAllFilesInBlocks": false
+    }
+}
