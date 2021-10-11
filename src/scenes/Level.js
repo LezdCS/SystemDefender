@@ -5,14 +5,15 @@ import Base from "../classes/Base";
 
 import Scenario from "../scenario/Scenario";
 import Dialog from "../scenario/types/Dialog";
+import Wave from "../scenario/types/Wave";
 
 /* START OF COMPILED CODE */
 
 export default class Level extends Phaser.Scene {
-  /** @type {Phaser.Physics.Arcade.Group} */
+  /** @type {Phaser.GameObjects.Group} */
   waveEnemies;
 
-  /** @type {Phaser.Physics.Arcade.Sprite} */
+  /** @type {Base} */
   base;
 
   /** @type {Map<Array, String>} */
@@ -35,7 +36,7 @@ export default class Level extends Phaser.Scene {
   init() {
     this.base = new Base(this, 260, 318, "microship", 400);
 
-    this.breakpointsCoordinates = new Array();
+    this.breakpointsCoordinates = [];
     this.pathBreakpoints = new Map();
 
     fetch("./src/scenes/level1.json")
@@ -51,8 +52,31 @@ export default class Level extends Phaser.Scene {
       );
 
     this.scenario = new Scenario();
-    var dialog1 = new Dialog(["Nickname", "Text"]);
+    const dialog1 = new Dialog(new Map([["Nickname", "Text"]]));
     this.scenario.addElement(dialog1);
+
+    fetch("./src/scenes/level1_scenario.json")
+        .then((response) => response.json())
+        .then((json) =>
+            json["Scenario"].forEach((element) => {
+                console.log(element)
+             switch(element["type"]){
+                 case "Dialog":
+                     const dialog = new Dialog(new Map([[element["speaker"], element["text"]]]));
+                     this.scenario.addElement(dialog);
+                     break;
+                 case "Wave":
+                     const wave = new Wave();
+                     element["enemies"].forEach(property=> {
+                        console.log(property)
+                        const enemy = new Enemy(element["enemy_type"],element["cooldown"]);
+                        wave.addEnemy(enemy);
+                     })
+                     this.scenario.addElement(wave);
+                     break;
+             }
+            })
+        );
   }
 
   /** @returns {void} */
@@ -95,7 +119,7 @@ export default class Level extends Phaser.Scene {
       classType: Enemy,
     });
 
-    const red = new Enemy(this, 10, 360, "microship", 2, 30, "E");
+    const red = new Enemy(this, 10, 360, "microship", 0.5, 30, "E",100, 1000);
     this.waveEnemies.add(red);
     this.add.existing(red);
 
@@ -108,16 +132,16 @@ export default class Level extends Phaser.Scene {
       this.add.circle(element[0], element[1], 10, 0xfffff);
     }
 
-    this.scenarioManager();
+    this.scenarioManager().then(r => console.log("test"));
   }
 
   async scenarioManager() {
-    this.scenario.getAllElements().forEach((element) => console.log("ok"));
+    this.scenario.elements.forEach((element) => console.log("ok"));
     await this.playScenarioElement();
     console.log("after");
   }
 
-  async playScenarioElement() {
+  playScenarioElement() {
     setTimeout(function test() {
       console.log("timeout");
     }, 3000);
@@ -125,19 +149,16 @@ export default class Level extends Phaser.Scene {
 
   update() {
     this.waveEnemies.children.iterate((child) => {
-      /** @type {Phaser.Physics.Arcade.Sprite} */
+      /** @type {Enemy} */
       const enemy = child;
 
-      var key = this.breakpointsCoordinates.find(
+      const key = this.breakpointsCoordinates.find(
         (element) =>
-          JSON.stringify(element) == JSON.stringify([enemy.x, enemy.y])
+          JSON.stringify(element) === JSON.stringify([enemy.x, enemy.y])
       );
 
-      if (key != undefined) {
-        const direction = this.pathBreakpoints.get(key);
-        // console.log(direction);
-
-        enemy.direction = direction;
+      if (key !== undefined) {
+        enemy.direction = this.pathBreakpoints.get(key);
       }
 
       switch (enemy.direction) {

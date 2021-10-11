@@ -1,31 +1,33 @@
 export default class Scenario {
   /**
-   * @param {ScenarioElements[]} elements
+   * @param {ScenarioElement[]} elements
    */
   constructor(elements) {
-    if(elements==undefined){
-      this.elements = []
+    if(elements===undefined){
+      this._elements = []
     }else{
-      this.elements = elements;
+      this._elements = elements;
     }
+    this._elements = elements;
   }
 
   addElement(element) {
-    this.elements.push(element);
+    this._elements.push(element);
   }
 
   deleteElement(element) {
-    const index = this.elements.indexOf(element);
+    const index = this._elements.indexOf(element);
     if (index > -1) {
-      this.elements.splice(index);
+      this._elements.splice(index);
     }
   }
 
   getElement(index) {
-    return this.elements[index];
+    return this._elements[index];
   }
 
-  getAllElements(){
-    return this.elements
+
+  get elements() {
+    return this._elements;
   }
 }

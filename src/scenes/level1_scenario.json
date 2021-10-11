@@ -1,0 +1,22 @@
+{
+  "Scenario": [
+    {
+      "type": "Dialog",
+      "speaker": "Speaker",
+      "text": "text"
+    },
+    {
+      "type": "Wave",
+      "enemies": [
+        {
+          "enemy_type": "red",
+          "cooldown": 1000
+        },
+        {
+          "enemy_type": "red",
+          "cooldown": 400
+        }
+      ]
+    }
+  ]
+}
