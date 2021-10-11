@@ -1,9 +1,13 @@
-class Scenario {
+export default class Scenario {
   /**
    * @param {ScenarioElements[]} elements
    */
   constructor(elements) {
-    this.elements = elements;
+    if(elements==undefined){
+      this.elements = []
+    }else{
+      this.elements = elements;
+    }
   }
 
   addElement(element) {
@@ -19,5 +23,9 @@ class Scenario {
 
   getElement(index) {
     return this.elements[index];
+  }
+
+  getAllElements(){
+    return this.elements
   }
 }

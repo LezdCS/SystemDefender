@@ -1,8 +1,13 @@
-class Wave extends ScenarioElements {
+import Enemy from "../../enemies/Enemy";
+import ScenarioElement from "../ScenarioElement";
+
+
+export default class Wave extends ScenarioElements {
   /**
-   * @param {String} type
+   * @param {Map<Enemy, number>} enemies
    */
-  constructor(type) {
-    super(type);
+  constructor(enemies) {
+    super("wave");
+    this.enemies = enemies;
   }
 }

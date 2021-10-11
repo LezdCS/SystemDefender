@@ -3,6 +3,9 @@
 import Enemy from "../enemies/Enemy";
 import Base from "../classes/Base";
 
+import Scenario from "../scenario/Scenario";
+import Dialog from "../scenario/types/Dialog";
+
 /* START OF COMPILED CODE */
 
 export default class Level extends Phaser.Scene {
@@ -17,6 +20,9 @@ export default class Level extends Phaser.Scene {
 
   /** @type {Array} */
   breakpointsCoordinates;
+
+  /** @type {Scenario} */
+  scenario;
 
   constructor() {
     super("Level");
@@ -34,12 +40,19 @@ export default class Level extends Phaser.Scene {
 
     fetch("./src/scenes/level1.json")
       .then((response) => response.json())
-      .then((json) => 
-      json["level1"].forEach(element => {
-        this.breakpointsCoordinates.push([element["x"],element["y"]])
-        this.pathBreakpoints.set(this.breakpointsCoordinates.at(-1),element["direction"])
-      })
+      .then((json) =>
+        json["level1"].forEach((element) => {
+          this.breakpointsCoordinates.push([element["x"], element["y"]]);
+          this.pathBreakpoints.set(
+            this.breakpointsCoordinates.at(-1),
+            element["direction"]
+          );
+        })
       );
+
+    this.scenario = new Scenario();
+    var dialog1 = new Dialog(["Nickname", "Text"]);
+    this.scenario.addElement(dialog1);
   }
 
   /** @returns {void} */
@@ -85,15 +98,29 @@ export default class Level extends Phaser.Scene {
     const red = new Enemy(this, 10, 360, "microship", 2, 30, "E");
     this.waveEnemies.add(red);
     this.add.existing(red);
-    // this.waveEnemies.get(100,50,"microship")
 
     this.add.existing(this.base);
 
+    // this.breakpointsCoordinate.length not working, returning 0 ????
     for (let index = 0; index < this.breakpointsCoordinates.length; index++) {
       const element = this.breakpointsCoordinates[index];
 
       this.add.circle(element[0], element[1], 10, 0xfffff);
     }
+
+    this.scenarioManager();
+  }
+
+  async scenarioManager() {
+    this.scenario.getAllElements().forEach((element) => console.log("ok"));
+    await this.playScenarioElement();
+    console.log("after");
+  }
+
+  async playScenarioElement() {
+    setTimeout(function test() {
+      console.log("timeout");
+    }, 3000);
   }
 
   update() {
@@ -108,25 +135,31 @@ export default class Level extends Phaser.Scene {
 
       if (key != undefined) {
         const direction = this.pathBreakpoints.get(key);
-        console.log(direction);
+        // console.log(direction);
 
         enemy.direction = direction;
       }
 
-      if (enemy.direction === "E") {
-        enemy.x += enemy.velocity;
-      } else if (enemy.direction === "N") {
-        enemy.y -= enemy.velocity;
-      } else if (enemy.direction === "O") {
-        enemy.x -= enemy.velocity;
-      } else if (enemy.direction === "S") {
-        enemy.y += enemy.velocity;
-      } else if (enemy.direction === "END") {
-        enemy.x = 0;
-        enemy.y = 0;
-        enemy.direction = "none";
-        this.waveEnemies.killAndHide(enemy);
-        this.base.life -= enemy.damage_power;
+      switch (enemy.direction) {
+        case "E":
+          enemy.x += enemy.velocity;
+          break;
+        case "N":
+          enemy.y -= enemy.velocity;
+          break;
+        case "O":
+          enemy.x -= enemy.velocity;
+          break;
+        case "S":
+          enemy.y += enemy.velocity;
+          break;
+        case "END":
+          enemy.x = 0;
+          enemy.y = 0;
+          enemy.direction = "none";
+          this.waveEnemies.killAndHide(enemy);
+          this.base.life -= enemy.damage_power;
+          break;
       }
     });
   }

@@ -1,8 +1,11 @@
-class Dialog extends ScenarioElements {
+import ScenarioElement from "../ScenarioElement";
+
+export default class Dialog extends ScenarioElement {
   /**
-   * @param {String} type
+   * @param {Map<String, String>} textToSay
    */
-  constructor(type) {
-    super(type);
+  constructor(textToSay) {
+    super("dialog");
+    this.textToSay = textToSay;
   }
 }

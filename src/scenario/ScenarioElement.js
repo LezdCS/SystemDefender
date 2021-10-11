@@ -1,4 +1,4 @@
-class ScenarioElements {
+export default class ScenarioElement {
   /**
    * @param {String} type
    */
