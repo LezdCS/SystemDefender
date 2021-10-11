@@ -1,7 +1,7 @@
 // You can write more code here
 
 import Enemy from "../enemies/Enemy";
-import Base from "../classes/Base";
+import EpfMainframe from "../EpfMainframe/EpfMainframe";
 
 import Scenario from "../scenario/Scenario";
 import Dialog from "../scenario/types/Dialog";
@@ -13,8 +13,8 @@ export default class Level extends Phaser.Scene {
   /** @type {Phaser.GameObjects.Group} */
   waveEnemies;
 
-  /** @type {Base} */
-  base;
+  /** @type {EpfMainframe} */
+  EpfMainframe;
 
   /** @type {Map<Array, String>} */
   pathBreakpoints;
@@ -34,7 +34,7 @@ export default class Level extends Phaser.Scene {
   }
 
   init() {
-    this.base = new Base(this, 260, 318, "microship", 400);
+    this.EpfMainframe = new EpfMainframe(this, 260, 318, "microship", 400);
 
     this.breakpointsCoordinates = [];
     this.pathBreakpoints = new Map();
@@ -52,8 +52,6 @@ export default class Level extends Phaser.Scene {
       );
 
     this.scenario = new Scenario();
-    const dialog1 = new Dialog(new Map([["Nickname", "Text"]]));
-    this.scenario.addElement(dialog1);
 
     fetch("./src/scenes/level1_scenario.json")
         .then((response) => response.json())
@@ -62,7 +60,7 @@ export default class Level extends Phaser.Scene {
                 console.log(element)
              switch(element["type"]){
                  case "Dialog":
-                     const dialog = new Dialog(new Map([[element["speaker"], element["text"]]]));
+                     const dialog = new Dialog(element["speaker"], element["text"]);
                      this.scenario.addElement(dialog);
                      break;
                  case "Wave":
@@ -123,7 +121,7 @@ export default class Level extends Phaser.Scene {
     this.waveEnemies.add(red);
     this.add.existing(red);
 
-    this.add.existing(this.base);
+    this.add.existing(this.EpfMainframe);
 
     // this.breakpointsCoordinate.length not working, returning 0 ????
     for (let index = 0; index < this.breakpointsCoordinates.length; index++) {
@@ -179,7 +177,7 @@ export default class Level extends Phaser.Scene {
           enemy.y = 0;
           enemy.direction = "none";
           this.waveEnemies.killAndHide(enemy);
-          this.base.life -= enemy.damage_power;
+          this.EpfMainframe.life -= enemy.damage_power;
           break;
       }
     });

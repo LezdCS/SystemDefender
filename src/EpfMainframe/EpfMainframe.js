@@ -1,4 +1,4 @@
-export default class Base extends Phaser.GameObjects.Sprite
+export default class EpfMainframe extends Phaser.GameObjects.Sprite
 {
     /**
     * @param {Phaser.Scene} scene

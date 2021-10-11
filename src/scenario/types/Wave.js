@@ -13,7 +13,6 @@ export default class Wave extends ScenarioElement {
     }else{
       this._enemies = enemies;
     }
-    this._enemies = enemies;
   }
 
   addEnemy(enemy){

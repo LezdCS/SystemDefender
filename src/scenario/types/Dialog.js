@@ -2,10 +2,12 @@ import ScenarioElement from "../ScenarioElement";
 
 export default class Dialog extends ScenarioElement {
   /**
-   * @param {Map<String, String>} textToSay
+   * @param {String} speaker
+   * @param {String} text
    */
-  constructor(textToSay) {
+  constructor(speaker, text) {
     super("dialog");
-    this.textToSay = textToSay;
+    this.speaker = speaker;
+    this.text = text
   }
 }
