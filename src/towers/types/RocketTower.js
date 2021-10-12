@@ -1,6 +1,7 @@
 import Tower from "../Tower";
 
-var _type = "RocketTower";
+const _type = "RocketTower";
+
 /**
  * @param {Phaser.Scene} scene
  * @param {number} x

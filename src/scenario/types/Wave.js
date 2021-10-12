@@ -16,7 +16,7 @@ export default class Wave extends ScenarioElement {
   }
 
   addEnemy(enemy){
-    this._enemies.add(enemy)
+    this.enemies.push(enemy)
   }
 
   get enemies() {

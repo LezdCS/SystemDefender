@@ -6,6 +6,7 @@ import EpfMainframe from "../EpfMainframe/EpfMainframe";
 import Scenario from "../scenario/Scenario";
 import Dialog from "../scenario/types/Dialog";
 import Wave from "../scenario/types/Wave";
+import ENEMY_RED from "../enemies/types/ENEMY_RED";
 
 /* START OF COMPILED CODE */
 
@@ -17,13 +18,13 @@ export default class Level extends Phaser.Scene {
   EpfMainframe;
 
   /** @type {Map<Array, String>} */
-  pathBreakpoints;
+  pathBreakpoints =  new Map();
 
   /** @type {Array} */
-  breakpointsCoordinates;
+  breakpointsCoordinates = [];
 
   /** @type {Scenario} */
-  scenario;
+  scenario = new Scenario();
 
   constructor() {
     super("Level");
@@ -34,47 +35,12 @@ export default class Level extends Phaser.Scene {
   }
 
   init() {
+    this.waveEnemies = this.add.group({
+      classType: Enemy,
+    });
+
     this.EpfMainframe = new EpfMainframe(this, 260, 318, "microship", 400);
 
-    this.breakpointsCoordinates = [];
-    this.pathBreakpoints = new Map();
-
-    fetch("./src/scenes/level1.json")
-      .then((response) => response.json())
-      .then((json) =>
-        json["level1"].forEach((element) => {
-          this.breakpointsCoordinates.push([element["x"], element["y"]]);
-          this.pathBreakpoints.set(
-            this.breakpointsCoordinates.at(-1),
-            element["direction"]
-          );
-        })
-      );
-
-    this.scenario = new Scenario();
-
-    fetch("./src/scenes/level1_scenario.json")
-        .then((response) => response.json())
-        .then((json) =>
-            json["Scenario"].forEach((element) => {
-                console.log(element)
-             switch(element["type"]){
-                 case "Dialog":
-                     const dialog = new Dialog(element["speaker"], element["text"]);
-                     this.scenario.addElement(dialog);
-                     break;
-                 case "Wave":
-                     const wave = new Wave();
-                     element["enemies"].forEach(property=> {
-                        console.log(property)
-                        const enemy = new Enemy(element["enemy_type"],element["cooldown"]);
-                        wave.addEnemy(enemy);
-                     })
-                     this.scenario.addElement(wave);
-                     break;
-             }
-            })
-        );
   }
 
   /** @returns {void} */
@@ -106,20 +72,53 @@ export default class Level extends Phaser.Scene {
     this.events.emit("scene-awake");
   }
 
+  preload(){
+
+    this.load.json('path', './src/scenes/level1.json');
+    this.load.json('scenario', './src/scenes/level1_scenario.json');
+
+  }
+
   /* START-USER-CODE */
 
   // Write more your code here
 
   create() {
+
+    const path = this.cache.json.get('path');
+    path["level1"].forEach((element)=>
+        {
+          this.breakpointsCoordinates.push([element["x"], element["y"]]);
+          this.pathBreakpoints.set(
+              this.breakpointsCoordinates.at(-1),
+              element["direction"]
+          );
+        }
+    )
+
+    const scenario = this.cache.json.get('scenario');
+    scenario["Scenario"].forEach((element)=>
+        {
+          switch(element["type"]){
+            case "Dialog":
+              const dialog = new Dialog(element["speaker"], element["text"]);
+              this.scenario.addElement(dialog);
+              break;
+            case "Wave":
+              const wave = new Wave();
+              element["enemies"].forEach(property=> {
+                if(property["enemy_type"]==="red"){
+                  const enemy = new ENEMY_RED(this, 10, 360, "microship", "E", property["cooldown"]);
+                  wave.addEnemy(enemy);
+                }
+              })
+              this.scenario.addElement(wave);
+              break;
+          }
+        }
+    )
+
     this.editorCreate();
-
-    this.waveEnemies = this.add.group({
-      classType: Enemy,
-    });
-
-    const red = new Enemy(this, 10, 360, "microship", 0.5, 30, "E",100, 1000);
-    this.waveEnemies.add(red);
-    this.add.existing(red);
 
     this.add.existing(this.EpfMainframe);
 
@@ -130,19 +129,6 @@ export default class Level extends Phaser.Scene {
       this.add.circle(element[0], element[1], 10, 0xfffff);
     }
 
-    this.scenarioManager().then(r => console.log("test"));
-  }
-
-  async scenarioManager() {
-    this.scenario.elements.forEach((element) => console.log("ok"));
-    await this.playScenarioElement();
-    console.log("after");
-  }
-
-  playScenarioElement() {
-    setTimeout(function test() {
-      console.log("timeout");
-    }, 3000);
   }
 
   update() {
@@ -177,6 +163,7 @@ export default class Level extends Phaser.Scene {
           enemy.y = 0;
           enemy.direction = "none";
           this.waveEnemies.killAndHide(enemy);
+          console.log(this.waveEnemies.children.entries)
           this.EpfMainframe.life -= enemy.damage_power;
           break;
       }

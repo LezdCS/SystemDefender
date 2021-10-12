@@ -10,13 +10,30 @@
       "enemies": [
         {
           "enemy_type": "red",
+          "cooldown": 0
+        },
+        {
+          "enemy_type": "red",
           "cooldown": 1000
         },
         {
           "enemy_type": "red",
-          "cooldown": 400
+          "cooldown": 1000
+        },
+        {
+          "enemy_type": "red",
+          "cooldown": 1000
+        },
+        {
+          "enemy_type": "red",
+          "cooldown": 1000
         }
       ]
+    },
+    {
+      "type": "Dialog",
+      "speaker": "Speaker",
+      "text": "text"
     }
   ]
 }

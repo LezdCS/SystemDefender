@@ -4,30 +4,32 @@ export default class Scenario {
    */
   constructor(elements) {
     if(elements===undefined){
-      this._elements = []
+      this.elements = []
     }else{
-      this._elements = elements;
+      this.elements = elements;
     }
-    this._elements = elements;
+
+    this.currentElement = null;
+    this.elementToPlay = null;
   }
 
   addElement(element) {
-    this._elements.push(element);
+    this.elements.push(element);
   }
 
   deleteElement(element) {
-    const index = this._elements.indexOf(element);
+    const index = this.elements.indexOf(element);
     if (index > -1) {
-      this._elements.splice(index);
+      this.elements.splice(index);
     }
   }
 
   getElement(index) {
-    return this._elements[index];
+    return this.elements[index];
   }
 
 
-  get elements() {
-    return this._elements;
+  getElements() {
+    return this.elements;
   }
 }
