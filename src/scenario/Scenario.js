@@ -1,14 +1,7 @@
 export default class Scenario {
-  /**
-   * @param {ScenarioElement[]} elements
-   */
-  constructor(elements) {
-    if(elements===undefined){
-      this.elements = []
-    }else{
-      this.elements = elements;
-    }
 
+  constructor() {
+    this.elements = []
     this.currentElement = null;
     this.elementToPlay = null;
   }

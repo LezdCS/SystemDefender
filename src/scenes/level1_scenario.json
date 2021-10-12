@@ -18,15 +18,15 @@
         },
         {
           "enemy_type": "red",
-          "cooldown": 1000
+          "cooldown": 200
         },
         {
           "enemy_type": "red",
-          "cooldown": 1000
+          "cooldown": 400
         },
         {
           "enemy_type": "red",
-          "cooldown": 1000
+          "cooldown": 100
         }
       ]
     },

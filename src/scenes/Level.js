@@ -8,8 +8,6 @@ import Dialog from "../scenario/types/Dialog";
 import Wave from "../scenario/types/Wave";
 import ENEMY_RED from "../enemies/types/ENEMY_RED";
 
-/* START OF COMPILED CODE */
-
 export default class Level extends Phaser.Scene {
   /** @type {Phaser.GameObjects.Group} */
   waveEnemies;
@@ -28,18 +26,9 @@ export default class Level extends Phaser.Scene {
 
   constructor() {
     super("Level");
-
-    /* START-USER-CTR-CODE */
-    // Write your code here.
-    /* END-USER-CTR-CODE */
   }
 
   init() {
-    this.waveEnemies = this.add.group({
-      classType: Enemy,
-    });
-
-    this.EpfMainframe = new EpfMainframe(this, 260, 318, "microship", 400);
 
   }
 
@@ -74,14 +63,16 @@ export default class Level extends Phaser.Scene {
 
   preload(){
 
+    this.waveEnemies = this.add.group({
+      classType: Enemy,
+    });
+
+    this.EpfMainframe = new EpfMainframe(this, 260, 318, "microship", 400);
+
     this.load.json('path', './src/scenes/level1.json');
     this.load.json('scenario', './src/scenes/level1_scenario.json');
 
   }
-
-  /* START-USER-CODE */
-
-  // Write more your code here
 
   create() {
 
@@ -122,57 +113,80 @@ export default class Level extends Phaser.Scene {
 
     this.add.existing(this.EpfMainframe);
 
-    // this.breakpointsCoordinate.length not working, returning 0 ????
     for (let index = 0; index < this.breakpointsCoordinates.length; index++) {
       const element = this.breakpointsCoordinates[index];
 
       this.add.circle(element[0], element[1], 10, 0xfffff);
     }
 
+    this.createWave(this,this.scenario.elements[1])
+    this.scenario.elementToPlay = this.scenario.elements[1]
+  }
+
+  createWave(scene,wave){
+    let time = scene.time.now
+    wave.enemies.forEach((enemy)=>{
+
+      setTimeout(function (){
+        scene.add.existing(enemy)
+        scene.waveEnemies.add(enemy)
+          }
+          ,time + enemy.cooldown)
+
+      time += enemy.cooldown
+    })
   }
 
   update() {
-    this.waveEnemies.children.iterate((child) => {
-      /** @type {Enemy} */
-      const enemy = child;
+    if(this.scenario.elementToPlay.constructor.name === "Wave"){
+      this.scenario.currentElement = this.scenario.elementToPlay
+      this.waveEnemies.children.iterate((child) => {
+        /** @type {Enemy} */
+        const enemy = child;
 
-      const key = this.breakpointsCoordinates.find(
-        (element) =>
-          JSON.stringify(element) === JSON.stringify([enemy.x, enemy.y])
-      );
+        const key = this.breakpointsCoordinates.find(
+            (element) =>
+                JSON.stringify(element) === JSON.stringify([enemy.x, enemy.y])
+        );
 
-      if (key !== undefined) {
-        enemy.direction = this.pathBreakpoints.get(key);
-      }
+        if (key !== undefined) {
+          enemy.direction = this.pathBreakpoints.get(key);
+        }
 
-      switch (enemy.direction) {
-        case "E":
-          enemy.x += enemy.velocity;
-          break;
-        case "N":
-          enemy.y -= enemy.velocity;
-          break;
-        case "O":
-          enemy.x -= enemy.velocity;
-          break;
-        case "S":
-          enemy.y += enemy.velocity;
-          break;
-        case "END":
-          enemy.x = 0;
-          enemy.y = 0;
-          enemy.direction = "none";
-          this.waveEnemies.killAndHide(enemy);
-          console.log(this.waveEnemies.children.entries)
-          this.EpfMainframe.life -= enemy.damage_power;
-          break;
-      }
-    });
+        switch (enemy.direction) {
+          case "E":
+            enemy.x += enemy.velocity;
+            break;
+          case "N":
+            enemy.y -= enemy.velocity;
+            break;
+          case "O":
+            enemy.x -= enemy.velocity;
+            break;
+          case "S":
+            enemy.y += enemy.velocity;
+            break;
+          case "END":
+            enemy.x = 0;
+            enemy.y = 0;
+            enemy.direction = "none";
+            this.waveEnemies.killAndHide(enemy);
+            this.EpfMainframe.life -= enemy.damage_power;
+            break;
+        }
+
+        if(this.waveEnemies.getTotalUsed() === 0){
+          this.scenario.elementToPlay = this.scenario.elements[2]
+        }
+      });
+    }else if(this.scenario.elementToPlay.constructor.name === "Dialog" && this.scenario.currentElement !== this.scenario.elementToPlay){
+      this.scenario.currentElement = this.scenario.elementToPlay
+      console.log("DIALOG")
+      //play texts
+      //timeout du Dialog avant de lancer la wave suivante
+      //play next wave
+    }
   }
 
-  /* END-USER-CODE */
 }
 
-/* END OF COMPILED CODE */
-
-// You can write more code here
