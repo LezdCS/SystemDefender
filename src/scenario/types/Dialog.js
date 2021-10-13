@@ -1,4 +1,4 @@
-import ScenarioElement from "../ScenarioElement";
+import ScenarioElement from "../ScenarioElement.js";
 
 export default class Dialog extends ScenarioElement {
   /**

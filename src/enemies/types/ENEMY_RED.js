@@ -1,4 +1,4 @@
-import Enemy from "../Enemy";
+import Enemy from "../Enemy.js";
 
 export default class ENEMY_RED extends Enemy {
 

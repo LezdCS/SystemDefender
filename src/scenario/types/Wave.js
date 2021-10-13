@@ -1,5 +1,5 @@
-import Enemy from "../../enemies/Enemy";
-import ScenarioElement from "../ScenarioElement";
+import Enemy from "../../enemies/Enemy.js";
+import ScenarioElement from "../ScenarioElement.js";
 
 
 export default class Wave extends ScenarioElement {

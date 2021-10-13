@@ -1,4 +1,4 @@
-import Level from "../src/scenes/Level";
+import Level from "../src/scenes/Level.js";
 
 window.addEventListener("load", function () {
   var game = new Phaser.Game({

@@ -1,12 +1,12 @@
 // You can write more code here
 
-import Enemy from "../enemies/Enemy";
-import EpfMainframe from "../EpfMainframe/EpfMainframe";
+import Enemy from "../enemies/Enemy.js";
+import EpfMainframe from "../EpfMainframe/EpfMainframe.js";
 
-import Scenario from "../scenario/Scenario";
-import Dialog from "../scenario/types/Dialog";
-import Wave from "../scenario/types/Wave";
-import ENEMY_RED from "../enemies/types/ENEMY_RED";
+import Scenario from "../scenario/Scenario.js";
+import Dialog from "../scenario/types/Dialog.js";
+import Wave from "../scenario/types/Wave.js";
+import ENEMY_RED from "../enemies/types/ENEMY_RED.js";
 
 export default class Level extends Phaser.Scene {
   /** @type {Phaser.GameObjects.Group} */
@@ -34,6 +34,7 @@ export default class Level extends Phaser.Scene {
 
   /** @returns {void} */
   editorCreate() {
+
     // background
     this.add.image(386, 221, "background");
 
@@ -57,6 +58,9 @@ export default class Level extends Phaser.Scene {
 
     // shadow
     this.add.image(384, 245, "shadow");
+
+    // contour
+    this.add.image(381, 240, "contour");
 
     this.events.emit("scene-awake");
   }
@@ -128,8 +132,8 @@ export default class Level extends Phaser.Scene {
     wave.enemies.forEach((enemy)=>{
 
       setTimeout(function (){
-        scene.add.existing(enemy)
-        scene.waveEnemies.add(enemy)
+            scene.add.existing(enemy)
+            scene.waveEnemies.add(enemy)
           }
           ,time + enemy.cooldown)
 

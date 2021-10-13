@@ -94,6 +94,17 @@
             },
             "x": 384,
             "y": 245
+        },
+        {
+            "type": "Image",
+            "id": "8683510f-564b-44bc-9f62-a7f5bfa39dce",
+            "label": "contour",
+            "components": [],
+            "texture": {
+                "key": "contour"
+            },
+            "x": 381,
+            "y": 241
         }
     ],
     "plainObjects": [],

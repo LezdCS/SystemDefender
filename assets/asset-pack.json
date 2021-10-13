@@ -7,6 +7,11 @@
                 "key": "background"
             },
             {
+                "url": "assets/contour.png",
+                "type": "image",
+                "key": "contour"
+            },
+            {
                 "url": "assets/microship.png",
                 "type": "image",
                 "key": "microship"
