@@ -97,6 +97,17 @@
         },
         {
             "type": "Image",
+            "id": "871eed5f-cdab-4945-b959-b88c6cc53696",
+            "label": "stripes",
+            "components": [],
+            "texture": {
+                "key": "stripes"
+            },
+            "x": 381,
+            "y": 238
+        },
+        {
+            "type": "Image",
             "id": "8683510f-564b-44bc-9f62-a7f5bfa39dce",
             "label": "contour",
             "components": [],
@@ -104,7 +115,7 @@
                 "key": "contour"
             },
             "x": 381,
-            "y": 241
+            "y": 245
         }
     ],
     "plainObjects": [],

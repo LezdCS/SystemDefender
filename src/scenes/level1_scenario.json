@@ -2,8 +2,28 @@
   "Scenario": [
     {
       "type": "Dialog",
-      "speaker": "Speaker",
-      "text": "text"
+      "dialogs": [
+        [
+          "Speaker",
+          "Test 12345464",
+          2000
+        ],
+        [
+          "Speaker",
+          "zefzezegz"
+          ,1000
+        ],
+        [
+          "Speaker",
+          "aaaaaaaaaaaaaaaa"
+        ,1000
+        ],
+        [
+          "Speaker",
+          "bbbbbbbbbbbbbbbbb"
+        ,8000
+        ]
+      ]
     },
     {
       "type": "Wave",
@@ -32,8 +52,16 @@
     },
     {
       "type": "Dialog",
-      "speaker": "Speaker",
-      "text": "text"
+      "dialogs": [
+        [
+          "Speaker",
+          "text"
+        ],
+        [
+          "Speaker",
+          "text"
+        ]
+      ]
     }
   ]
 }

@@ -24,6 +24,8 @@ export default class Level extends Phaser.Scene {
   /** @type {Scenario} */
   scenario = new Scenario();
 
+  textSpeaker;
+
   constructor() {
     super("Level");
   }
@@ -58,6 +60,9 @@ export default class Level extends Phaser.Scene {
 
     // shadow
     this.add.image(384, 245, "shadow");
+
+    // stripes
+    this.add.image(381, 238, "stripes");
 
     // contour
     this.add.image(381, 240, "contour");
@@ -96,7 +101,12 @@ export default class Level extends Phaser.Scene {
         {
           switch(element["type"]){
             case "Dialog":
-              const dialog = new Dialog(element["speaker"], element["text"]);
+              let mapDialog = [];
+              element["dialogs"].forEach(property=> {
+                mapDialog.push([property[0], property[1], property[2]])
+              })
+
+              const dialog = new Dialog(mapDialog);
               this.scenario.addElement(dialog);
               break;
             case "Wave":
@@ -123,8 +133,9 @@ export default class Level extends Phaser.Scene {
       this.add.circle(element[0], element[1], 10, 0xfffff);
     }
 
-    this.createWave(this,this.scenario.elements[1])
-    this.scenario.elementToPlay = this.scenario.elements[1]
+    this.scenario.elementToPlay = this.scenario.elements[0]
+
+    this.textSpeaker = this.add.text(80, 420, 'Player Coords');
   }
 
   createWave(scene,wave){
@@ -143,6 +154,7 @@ export default class Level extends Phaser.Scene {
 
   update() {
     if(this.scenario.elementToPlay.constructor.name === "Wave"){
+      console.log("WAVE")
       this.scenario.currentElement = this.scenario.elementToPlay
       this.waveEnemies.children.iterate((child) => {
         /** @type {Enemy} */
@@ -186,9 +198,25 @@ export default class Level extends Phaser.Scene {
     }else if(this.scenario.elementToPlay.constructor.name === "Dialog" && this.scenario.currentElement !== this.scenario.elementToPlay){
       this.scenario.currentElement = this.scenario.elementToPlay
       console.log("DIALOG")
-      //play texts
-      //timeout du Dialog avant de lancer la wave suivante
-      //play next wave
+      let time = this.time.now
+      let scene = this;
+
+      this.scenario.currentElement.dialogs.forEach((element)=> {
+        setTimeout(function () {
+              scene.textSpeaker.setText(
+                  element[1]
+              )
+            }
+            , time + element[2])
+        time += element[2]
+      })
+
+      let nextWave = this.scenario.elements[this.scenario.elements.indexOf(this.scenario.currentElement )+1]
+      if(nextWave){
+        //load la barre du bas de progression d'arrivée d'enemeies
+        this.createWave(this,nextWave);
+        this.scenario.elementToPlay = nextWave;
+      }
     }
   }
 

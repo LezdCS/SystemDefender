@@ -27,6 +27,11 @@
                 "key": "shadow"
             },
             {
+                "url": "assets/stripes.png",
+                "type": "image",
+                "key": "stripes"
+            },
+            {
                 "url": "assets/towerSpots.png",
                 "type": "image",
                 "key": "towerSpots"
