@@ -9,216 +9,219 @@ import Wave from "../scenario/types/Wave.js";
 import ENEMY_RED from "../enemies/types/ENEMY_RED.js";
 
 export default class Level extends Phaser.Scene {
-  /** @type {Phaser.GameObjects.Group} */
-  waveEnemies;
+	/** @type {Phaser.GameObjects.Group} */
+	waveEnemies;
 
-  /** @type {EpfMainframe} */
-  EpfMainframe;
+	/** @type {EpfMainframe} */
+	EpfMainframe;
 
-  /** @type {Map<Array, String>} */
-  pathBreakpoints =  new Map();
+	mainFrameSprite;
 
-  /** @type {Array} */
-  breakpointsCoordinates = [];
+	/** @type {Map<Array, String>} */
+	pathBreakpoints =  new Map();
 
-  /** @type {Scenario} */
-  scenario = new Scenario();
+	/** @type {Array} */
+	breakpointsCoordinates = [];
 
-  textSpeaker;
+	/** @type {Scenario} */
+	scenario = new Scenario();
 
-  constructor() {
-    super("Level");
-  }
+	textSpeaker;
 
-  init() {
+	constructor() {
+		super("Level");
+	}
 
-  }
+	init() {
 
-  /** @returns {void} */
-  editorCreate() {
+	}
 
-    // background
-    this.add.image(386, 221, "background");
+	/** @returns {void} */
+	editorCreate() {
 
-    // path
-    this.add.image(366, 210, "path");
+		// background
+		this.add.image(386, 221, "background");
 
-    // towerSpots
-    this.add.image(366, 232, "towerSpots");
+		// path
+		this.add.image(366, 210, "path");
 
-    // microship
-    this.add.image(32, 422, "microship");
+		// towerSpots
+		this.add.image(366, 232, "towerSpots");
 
-    // microship_3
-    this.add.image(159, 439, "microship");
+		// microship
+		this.add.image(32, 422, "microship");
 
-    // microship_1
-    this.add.image(487, 466, "microship");
+		// microship_3
+		this.add.image(159, 439, "microship");
 
-    // microship_2
-    this.add.image(612, 466, "microship");
+		// microship_1
+		this.add.image(487, 466, "microship");
 
-    // shadow
-    this.add.image(384, 245, "shadow");
+		// microship_2
+		this.add.image(612, 466, "microship");
 
-    // stripes
-    this.add.image(381, 238, "stripes");
+		// shadow
+		this.add.image(384, 245, "shadow");
 
-    // contour
-    this.add.image(381, 240, "contour");
+		// mainframe
+		this.add.image(244, 317, "mainframe");
 
-    this.events.emit("scene-awake");
-  }
+		// stripes
+		this.mainFrameSprite = this.add.image(381, 238, "stripes");
 
-  preload(){
+		// contour
+		this.add.image(381, 240, "contour");
 
-    this.waveEnemies = this.add.group({
-      classType: Enemy,
-    });
+		this.events.emit("scene-awake");
+	}
 
-    this.EpfMainframe = new EpfMainframe(this, 260, 318, "microship", 400);
+	preload(){
 
-    this.load.json('path', './src/scenes/level1.json');
-    this.load.json('scenario', './src/scenes/level1_scenario.json');
+		this.waveEnemies = this.add.group({
+			classType: Enemy,
+		});
 
-  }
+		this.EpfMainframe = new EpfMainframe(this.mainFrameSprite, 400);
 
-  create() {
+		this.load.json('path', './src/scenes/level1.json');
+		this.load.json('scenario', './src/scenes/level1_scenario.json');
 
-    const path = this.cache.json.get('path');
-    path["level1"].forEach((element)=>
-        {
-          this.breakpointsCoordinates.push([element["x"], element["y"]]);
-          this.pathBreakpoints.set(
-              this.breakpointsCoordinates.at(-1),
-              element["direction"]
-          );
-        }
-    )
+	}
 
-    const scenario = this.cache.json.get('scenario');
-    scenario["Scenario"].forEach((element)=>
-        {
-          switch(element["type"]){
-            case "Dialog":
-              let mapDialog = [];
-              element["dialogs"].forEach(property=> {
-                mapDialog.push([property[0], property[1], property[2]])
-              })
+	create() {
 
-              const dialog = new Dialog(mapDialog);
-              this.scenario.addElement(dialog);
-              break;
-            case "Wave":
-              const wave = new Wave();
-              element["enemies"].forEach(property=> {
-                if(property["enemy_type"]==="red"){
-                  const enemy = new ENEMY_RED(this, 10, 360, "microship", "E", property["cooldown"]);
-                  wave.addEnemy(enemy);
-                }
-              })
-              this.scenario.addElement(wave);
-              break;
-          }
-        }
-    )
+		const path = this.cache.json.get('path');
+		path["level1"].forEach((element)=>
+			{
+				this.breakpointsCoordinates.push([element["x"], element["y"]]);
+				this.pathBreakpoints.set(
+					this.breakpointsCoordinates.at(-1),
+					element["direction"]
+				);
+			}
+		)
 
-    this.editorCreate();
+		const scenario = this.cache.json.get('scenario');
+		scenario["Scenario"].forEach((element)=>
+			{
+				switch(element["type"]){
+					case "Dialog":
+						let mapDialog = [];
+						element["dialogs"].forEach(property=> {
+							mapDialog.push([property[0], property[1], property[2]])
+						})
 
-    this.add.existing(this.EpfMainframe);
+						const dialog = new Dialog(mapDialog);
+						this.scenario.addElement(dialog);
+						break;
+					case "Wave":
+						const wave = new Wave();
+						element["enemies"].forEach(property=> {
+							if(property["enemy_type"]==="red"){
+								const enemy = new ENEMY_RED(this, 10, 360, "microship", "E", property["cooldown"]);
+								wave.addEnemy(enemy);
+							}
+						})
+						this.scenario.addElement(wave);
+						break;
+				}
+			}
+		)
 
-    for (let index = 0; index < this.breakpointsCoordinates.length; index++) {
-      const element = this.breakpointsCoordinates[index];
+		this.editorCreate();
 
-      this.add.circle(element[0], element[1], 10, 0xfffff);
-    }
+		for (let index = 0; index < this.breakpointsCoordinates.length; index++) {
+			const element = this.breakpointsCoordinates[index];
 
-    this.scenario.elementToPlay = this.scenario.elements[0]
+			this.add.circle(element[0], element[1], 10, 0xfffff);
+		}
 
-    this.textSpeaker = this.add.text(80, 420, 'Player Coords');
-  }
+		this.scenario.elementToPlay = this.scenario.elements[0]
 
-  createWave(scene,wave){
-    let time = scene.time.now
-    wave.enemies.forEach((enemy)=>{
+		this.textSpeaker = this.add.text(80, 420, 'Player Coords');
+	}
 
-      setTimeout(function (){
-            scene.add.existing(enemy)
-            scene.waveEnemies.add(enemy)
-          }
-          ,time + enemy.cooldown)
+	createWave(scene,wave){
+		let time = scene.time.now
+		wave.enemies.forEach((enemy)=>{
 
-      time += enemy.cooldown
-    })
-  }
+			setTimeout(function (){
+					scene.add.existing(enemy)
+					scene.waveEnemies.add(enemy)
+				}
+				,time + enemy.cooldown)
 
-  update() {
-    if(this.scenario.elementToPlay.constructor.name === "Wave"){
-      console.log("WAVE")
-      this.scenario.currentElement = this.scenario.elementToPlay
-      this.waveEnemies.children.iterate((child) => {
-        /** @type {Enemy} */
-        const enemy = child;
+			time += enemy.cooldown
+		})
+	}
 
-        const key = this.breakpointsCoordinates.find(
-            (element) =>
-                JSON.stringify(element) === JSON.stringify([enemy.x, enemy.y])
-        );
+	update() {
+		if(this.scenario.elementToPlay.constructor.name === "Wave"){
+			console.log("WAVE")
+			this.scenario.currentElement = this.scenario.elementToPlay
+			this.waveEnemies.children.iterate((child) => {
+				/** @type {Enemy} */
+				const enemy = child;
 
-        if (key !== undefined) {
-          enemy.direction = this.pathBreakpoints.get(key);
-        }
+				const key = this.breakpointsCoordinates.find(
+					(element) =>
+						JSON.stringify(element) === JSON.stringify([enemy.x, enemy.y])
+				);
 
-        switch (enemy.direction) {
-          case "E":
-            enemy.x += enemy.velocity;
-            break;
-          case "N":
-            enemy.y -= enemy.velocity;
-            break;
-          case "O":
-            enemy.x -= enemy.velocity;
-            break;
-          case "S":
-            enemy.y += enemy.velocity;
-            break;
-          case "END":
-            enemy.x = 0;
-            enemy.y = 0;
-            enemy.direction = "none";
-            this.waveEnemies.killAndHide(enemy);
-            this.EpfMainframe.life -= enemy.damage_power;
-            break;
-        }
+				if (key !== undefined) {
+					enemy.direction = this.pathBreakpoints.get(key);
+				}
 
-        if(this.waveEnemies.getTotalUsed() === 0){
-          this.scenario.elementToPlay = this.scenario.elements[2]
-        }
-      });
-    }else if(this.scenario.elementToPlay.constructor.name === "Dialog" && this.scenario.currentElement !== this.scenario.elementToPlay){
-      this.scenario.currentElement = this.scenario.elementToPlay
-      console.log("DIALOG")
-      let time = this.time.now
-      let scene = this;
+				switch (enemy.direction) {
+					case "E":
+						enemy.x += enemy.velocity;
+						break;
+					case "N":
+						enemy.y -= enemy.velocity;
+						break;
+					case "O":
+						enemy.x -= enemy.velocity;
+						break;
+					case "S":
+						enemy.y += enemy.velocity;
+						break;
+					case "END":
+						enemy.x = 0;
+						enemy.y = 0;
+						enemy.direction = "none";
+						this.waveEnemies.killAndHide(enemy);
+						this.EpfMainframe.life -= enemy.damage_power;
+						break;
+				}
 
-      this.scenario.currentElement.dialogs.forEach((element)=> {
-        setTimeout(function () {
-              scene.textSpeaker.setText(
-                  element[1]
-              )
-            }
-            , time + element[2])
-        time += element[2]
-      })
+				if(this.waveEnemies.getTotalUsed() === 0){
+					this.scenario.elementToPlay = this.scenario.elements[2]
+				}
+			});
+		}else if(this.scenario.elementToPlay.constructor.name === "Dialog" && this.scenario.currentElement !== this.scenario.elementToPlay){
+			this.scenario.currentElement = this.scenario.elementToPlay
+			console.log("DIALOG")
+			let time = this.time.now
+			let scene = this;
 
-      let nextWave = this.scenario.elements[this.scenario.elements.indexOf(this.scenario.currentElement )+1]
-      if(nextWave){
-        //load la barre du bas de progression d'arrivée d'enemeies
-        this.createWave(this,nextWave);
-        this.scenario.elementToPlay = nextWave;
-      }
-    }
-  }
+			this.scenario.currentElement.dialogs.forEach((element)=> {
+				setTimeout(function () {
+						scene.textSpeaker.setText(
+							element[1]
+						)
+					}
+					, time + element[2])
+				time += element[2]
+			})
+
+			let nextWave = this.scenario.elements[this.scenario.elements.indexOf(this.scenario.currentElement )+1]
+			if(nextWave){
+				//load la barre du bas de progression d'arrivée d'enemeies
+				this.createWave(this,nextWave);
+				this.scenario.elementToPlay = nextWave;
+			}
+		}
+	}
 
 }
 

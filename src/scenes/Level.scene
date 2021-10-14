@@ -97,6 +97,17 @@
         },
         {
             "type": "Image",
+            "id": "d8e36dcf-d2c4-4531-a283-052a91d4dcfe",
+            "label": "mainframe",
+            "components": [],
+            "texture": {
+                "key": "mainframe"
+            },
+            "x": 244,
+            "y": 317
+        },
+        {
+            "type": "Image",
             "id": "871eed5f-cdab-4945-b959-b88c6cc53696",
             "label": "stripes",
             "components": [],

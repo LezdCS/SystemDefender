@@ -1,15 +1,10 @@
-export default class EpfMainframe extends Phaser.GameObjects.Sprite
+export default class EpfMainframe
 {
     /**
-    * @param {Phaser.Scene} scene
-    * @param {number} x
-    * @param {number} y
-    * @param {string} texture
+    * @param {Phaser.GameObjects.Image} sprite
     * @param {number} life
     */
-    constructor(scene, x, y, texture, life) {
-        super(scene, x, y, texture)
-        this.setScale(0.5)
+    constructor(sprite, life) {
         this.life = life
     }
  }

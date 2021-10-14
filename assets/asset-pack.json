@@ -12,6 +12,11 @@
                 "key": "contour"
             },
             {
+                "url": "assets/mainframe.png",
+                "type": "image",
+                "key": "mainframe"
+            },
+            {
                 "url": "assets/microship.png",
                 "type": "image",
                 "key": "microship"
