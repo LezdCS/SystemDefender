@@ -55,12 +55,39 @@
       "dialogs": [
         [
           "Speaker",
-          "text"
+          "text",
+          1000
         ],
         [
           "Speaker",
-          "text"
+          "AHAHAH",
+          7000
         ]
+      ]
+    },
+    {
+      "type": "Wave",
+      "enemies": [
+        {
+          "enemy_type": "red",
+          "cooldown": 10
+        },
+        {
+          "enemy_type": "red",
+          "cooldown": 1000
+        },
+        {
+          "enemy_type": "red",
+          "cooldown": 200
+        },
+        {
+          "enemy_type": "red",
+          "cooldown": 400
+        },
+        {
+          "enemy_type": "red",
+          "cooldown": 100
+        }
       ]
     }
   ]

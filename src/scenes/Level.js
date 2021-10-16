@@ -7,6 +7,7 @@ import Scenario from "../scenario/Scenario.js";
 import Dialog from "../scenario/types/Dialog.js";
 import Wave from "../scenario/types/Wave.js";
 import ENEMY_RED from "../enemies/types/ENEMY_RED.js";
+import ENEMY_ORANGE from "../enemies/types/ENEMY_ORANGE.js";
 
 export default class Level extends Phaser.Scene {
 	/** @type {Phaser.GameObjects.Group} */
@@ -117,10 +118,18 @@ export default class Level extends Phaser.Scene {
 					case "Wave":
 						const wave = new Wave();
 						element["enemies"].forEach(property=> {
-							if(property["enemy_type"]==="red"){
-								const enemy = new ENEMY_RED(this, 10, 360, "microship", "E", property["cooldown"]);
-								wave.addEnemy(enemy);
+							let enemy;
+							switch (property["enemy_type"]) {
+								case "red":
+									enemy = new ENEMY_RED(this, 10, 360, "redEnemy", "E", property["cooldown"]);
+									break;
+								case "orange":
+									enemy = new ENEMY_ORANGE(this, 10, 360, "orangeEnemy", "E", property["cooldown"]);
+									break;
 							}
+
+							wave.addEnemy(enemy);
+
 						})
 						this.scenario.addElement(wave);
 						break;
@@ -142,7 +151,8 @@ export default class Level extends Phaser.Scene {
 	}
 
 	createWave(scene,wave){
-		let time = scene.time.now
+		console.log("creating wave")
+		let time = 0
 		wave.enemies.forEach((enemy)=>{
 
 			setTimeout(function (){
@@ -195,13 +205,19 @@ export default class Level extends Phaser.Scene {
 				}
 
 				if(this.waveEnemies.getTotalUsed() === 0){
-					this.scenario.elementToPlay = this.scenario.elements[2]
+					this.waveEnemies.clear();
+					let nextDialog = this.scenario.elements[this.scenario.elements.indexOf(this.scenario.currentElement )+1]
+					if(nextDialog){
+						this.scenario.elementToPlay = nextDialog;
+					}else{
+						console.log("GG !!!!!!!");
+					}
 				}
 			});
 		}else if(this.scenario.elementToPlay.constructor.name === "Dialog" && this.scenario.currentElement !== this.scenario.elementToPlay){
 			this.scenario.currentElement = this.scenario.elementToPlay
 			console.log("DIALOG")
-			let time = this.time.now
+			let time = 0;
 			let scene = this;
 
 			this.scenario.currentElement.dialogs.forEach((element)=> {

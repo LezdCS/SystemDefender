@@ -40,6 +40,16 @@
                 "url": "assets/towerSpots.png",
                 "type": "image",
                 "key": "towerSpots"
+            },
+            {
+                "url": "assets/orange.png",
+                "type": "image",
+                "key": "orangeEnemy"
+            },
+            {
+                "url": "assets/red.png",
+                "type": "image",
+                "key": "redEnemy"
             }
         ]
     },

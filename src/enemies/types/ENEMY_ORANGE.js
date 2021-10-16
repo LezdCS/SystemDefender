@@ -1,6 +1,6 @@
 import Enemy from "../Enemy.js";
 
-export default class ENEMY_RED extends Enemy {
+export default class ENEMY_ORANGE extends Enemy {
 
     /**
      * @param {Phaser.Scene} scene
@@ -13,8 +13,8 @@ export default class ENEMY_RED extends Enemy {
 
     constructor(scene, x, y, texture, direction, cooldown) {
         const life = 500;
-        const damage_power = 50;
-        const velocity = 1;
+        const damage_power = 100;
+        const velocity = 0.5;
         super(scene, x, y, texture, velocity, life, direction, damage_power, cooldown);
     }
 
