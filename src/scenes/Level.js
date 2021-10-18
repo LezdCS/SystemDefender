@@ -15,21 +15,23 @@ export default class Level extends Phaser.Scene {
 
 	/** @type {EpfMainframe} */
 	EpfMainframe;
-
+	/** @type {Phaser.GameObjects.Image} */
 	mainFrameSprite;
 
 	/** @type {Map<Array, String>} */
 	pathBreakpoints =  new Map();
-
 	/** @type {Array} */
 	breakpointsCoordinates = [];
 
 	/** @type {Scenario} */
 	scenario = new Scenario();
-
 	textSpeaker;
 
+	/** @type {Phaser.GameObjects.Sprite} */
 	towerspot;
+
+    /** @type {Phaser.GameObjects.Image} */
+    stripes;
 
 	constructor() {
 		super("Level");
@@ -52,10 +54,10 @@ export default class Level extends Phaser.Scene {
 		this.add.image(384, 245, "shadow");
 
 		// mainframe
-		this.add.image(244, 317, "mainframe");
+		this.mainFrameSprite = this.add.image(244, 317, "mainframe");
 
 		// stripes
-		this.mainFrameSprite = this.add.image(381, 238, "stripes");
+		this.stripes = this.add.image(381, 238, "stripes");
 
 		// contour
 		this.add.image(386, 240, "contour");
