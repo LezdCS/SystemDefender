@@ -20,17 +20,6 @@
         },
         {
             "type": "Image",
-            "id": "cb9a7c91-62a6-4723-96b9-9d68db6af4de",
-            "label": "path",
-            "components": [],
-            "texture": {
-                "key": "path"
-            },
-            "x": 366,
-            "y": 210
-        },
-        {
-            "type": "Image",
             "id": "276afd1d-cea1-4543-8a89-8e7a20eb66b9",
             "label": "towerSpots",
             "components": [],
@@ -39,50 +28,6 @@
             },
             "x": 366,
             "y": 232
-        },
-        {
-            "type": "Image",
-            "id": "1b70f2c1-5094-4f05-be86-d8544ed513dd",
-            "label": "microship",
-            "components": [],
-            "texture": {
-                "key": "microship"
-            },
-            "x": 32,
-            "y": 422
-        },
-        {
-            "type": "Image",
-            "id": "9deceae9-efc0-4e9c-8441-a893c6bf1c0f",
-            "label": "microship_3",
-            "components": [],
-            "texture": {
-                "key": "microship"
-            },
-            "x": 159,
-            "y": 439
-        },
-        {
-            "type": "Image",
-            "id": "3a1793d5-79ac-4d22-ad2b-2ad8a646b600",
-            "label": "microship_1",
-            "components": [],
-            "texture": {
-                "key": "microship"
-            },
-            "x": 487,
-            "y": 466
-        },
-        {
-            "type": "Image",
-            "id": "fed293df-59ff-45ff-9bb2-2c19bea50b72",
-            "label": "microship_2",
-            "components": [],
-            "texture": {
-                "key": "microship"
-            },
-            "x": 612,
-            "y": 466
         },
         {
             "type": "Image",
@@ -125,7 +70,7 @@
             "texture": {
                 "key": "contour"
             },
-            "x": 381,
+            "x": 386,
             "y": 245
         }
     ],

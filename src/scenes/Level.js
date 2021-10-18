@@ -29,6 +29,8 @@ export default class Level extends Phaser.Scene {
 
 	textSpeaker;
 
+	towerspot;
+
 	constructor() {
 		super("Level");
 	}
@@ -43,23 +45,8 @@ export default class Level extends Phaser.Scene {
 		// background
 		this.add.image(386, 221, "background");
 
-		// path
-		this.add.image(366, 210, "path");
-
 		// towerSpots
 		this.add.image(366, 232, "towerSpots");
-
-		// microship
-		this.add.image(32, 422, "microship");
-
-		// microship_3
-		this.add.image(159, 439, "microship");
-
-		// microship_1
-		this.add.image(487, 466, "microship");
-
-		// microship_2
-		this.add.image(612, 466, "microship");
 
 		// shadow
 		this.add.image(384, 245, "shadow");
@@ -71,7 +58,7 @@ export default class Level extends Phaser.Scene {
 		this.mainFrameSprite = this.add.image(381, 238, "stripes");
 
 		// contour
-		this.add.image(381, 240, "contour");
+		this.add.image(386, 240, "contour");
 
 		this.events.emit("scene-awake");
 	}
@@ -86,6 +73,8 @@ export default class Level extends Phaser.Scene {
 
 		this.load.json('path', './src/scenes/level1.json');
 		this.load.json('scenario', './src/scenes/level1_scenario.json');
+
+		this.load.multiatlas('towerspot', 'assets/towerspot.json', 'assets');
 
 	}
 
@@ -148,6 +137,17 @@ export default class Level extends Phaser.Scene {
 		this.scenario.elementToPlay = this.scenario.elements[0]
 
 		this.textSpeaker = this.add.text(80, 420, 'Player Coords');
+
+		this.towerspot = this.add.sprite(100, 400, 'towerspot', 'towerspot/1.png');
+
+		const frameNames = this.anims.generateFrameNames('towerspot', {
+			start: 1, end: 19, zeroPad: 0,
+			prefix: '', suffix: '.png'
+		});
+
+		this.anims.create({ key: 'towerspot', frames: frameNames, frameRate: 20, repeat: -1 });
+		this.towerspot.anims.play('towerspot');
+
 	}
 
 	createWave(scene,wave){

@@ -17,16 +17,6 @@
                 "key": "mainframe"
             },
             {
-                "url": "assets/microship.png",
-                "type": "image",
-                "key": "microship"
-            },
-            {
-                "url": "assets/path.png",
-                "type": "image",
-                "key": "path"
-            },
-            {
                 "url": "assets/shadow.png",
                 "type": "image",
                 "key": "shadow"
