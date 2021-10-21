@@ -77,7 +77,7 @@ export default class Level extends Phaser.Scene {
 		this.load.json('scenario', './src/scenes/level1_scenario.json');
 
 		this.load.multiatlas('towerspot', 'assets/towerspot.json', 'assets');
-
+		this.load.multiatlas('redEnemy', 'assets/redEnemy.json', 'assets');
 	}
 
 	create() {
@@ -112,7 +112,7 @@ export default class Level extends Phaser.Scene {
 							let enemy;
 							switch (property["enemy_type"]) {
 								case "red":
-									enemy = new ENEMY_RED(this, 10, 360, "redEnemy", "E", property["cooldown"]);
+									enemy = new ENEMY_RED(this, 10, 360, "redEnemy", 'redEnemy/1.png', "E", property["cooldown"]);
 									break;
 								case "orange":
 									enemy = new ENEMY_ORANGE(this, 10, 360, "orangeEnemy", "E", property["cooldown"]);
@@ -150,6 +150,7 @@ export default class Level extends Phaser.Scene {
 		this.anims.create({ key: 'towerspot', frames: frameNames, frameRate: 20, repeat: -1 });
 		this.towerspot.anims.play('towerspot');
 
+
 	}
 
 	createWave(scene,wave){
@@ -160,6 +161,8 @@ export default class Level extends Phaser.Scene {
 			setTimeout(function (){
 					scene.add.existing(enemy)
 					scene.waveEnemies.add(enemy)
+					enemy.changeSpriteDirection(scene);
+
 				}
 				,time + enemy.cooldown)
 
@@ -182,6 +185,7 @@ export default class Level extends Phaser.Scene {
 
 				if (key !== undefined) {
 					enemy.direction = this.pathBreakpoints.get(key);
+					enemy.changeSpriteDirection(this);
 				}
 
 				switch (enemy.direction) {
@@ -191,7 +195,7 @@ export default class Level extends Phaser.Scene {
 					case "N":
 						enemy.y -= enemy.velocity;
 						break;
-					case "O":
+					case "W":
 						enemy.x -= enemy.velocity;
 						break;
 					case "S":

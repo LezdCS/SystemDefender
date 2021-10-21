@@ -5,14 +5,15 @@ export default class Enemy extends Phaser.GameObjects.Sprite
     * @param {number} x
     * @param {number} y
     * @param {string} texture
+     *@param {string} frame
     * @param {number} velocity
     * @param {number} life
     * @param {string} direction
     * @param {number} damage_power
      * @param {number} cooldown
     */
-    constructor(scene, x, y, texture, velocity, life, direction, damage_power, cooldown) {
-        super(scene, x, y, texture)
+    constructor(scene, x, y, texture, frame, velocity, life, direction, damage_power, cooldown) {
+        super(scene, x, y, texture, frame)
         this.setScale(0.5)
         this.velocity = velocity
         this.life = life
