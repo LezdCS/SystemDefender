@@ -20,47 +20,43 @@ export default class ENEMY_RED extends Enemy {
     }
 
     changeSpriteDirection(scene){
-        let frameNames;
-        let anim;
+        let startFrame= 0;
+        let endFrame = 0;
+        let directionName = "";
 
         switch (this.direction) {
             case "E":
-                 frameNames = scene.anims.generateFrameNames('redEnemy', {
-                    start: 35, end: 45, zeroPad: 0,
-                    prefix: '', suffix: '.png'
-                });
-                anim = scene.anims.create({ key: 'redEnemyEst', frames: frameNames, frameRate: 20, repeat: -1 });
+                startFrame= 35;
+                endFrame = 40;
+                directionName = "Est";
                 break;
             case "W":
-                frameNames = scene.anims.generateFrameNames('redEnemy', {
-                    start: 70, end: 80, zeroPad: 0,
-                    prefix: '', suffix: '.png'
-                });
-                anim = scene.anims.create({ key: 'redEnemyWest', frames: frameNames, frameRate: 20, repeat: -1 });
+                startFrame= 70;
+                endFrame = 80;
+                directionName = "West";
                 break;
             case "N":
-                frameNames = scene.anims.generateFrameNames('redEnemy', {
-                    start: 120, end: 140, zeroPad: 0,
-                    prefix: '', suffix: '.png'
-                });
-                anim = scene.anims.create({ key: 'redEnemyNorth', frames: frameNames, frameRate: 20, repeat: -1 });
+                startFrame= 120;
+                endFrame = 140;
+                directionName = "North";
                 break;
             case "S":
-                frameNames = scene.anims.generateFrameNames('redEnemy', {
-                    start: 1, end: 10, zeroPad: 0,
-                    prefix: '', suffix: '.png'
-                });
-                anim = scene.anims.create({ key: 'redEnemySouth', frames: frameNames, frameRate: 20, repeat: -1 });
+                startFrame= 1;
+                endFrame = 10;
+                directionName = "South";
                 break;
             case "END":
-                frameNames = scene.anims.generateFrameNames('redEnemy', {
-                    start: 1, end: 1, zeroPad: 0,
-                    prefix: '', suffix: '.png'
-                });
-                anim = scene.anims.create({ key: 'redEnemySouth', frames: frameNames, frameRate: 20, repeat: -1 });
+                startFrame= 1;
+                endFrame = 1;
+                directionName = "End";
                 break;
-
         }
+
+        const frameNames = scene.anims.generateFrameNames('redEnemy', {
+            start: startFrame, end: endFrame, zeroPad: 0,
+            prefix: '', suffix: '.png'
+        });
+        const anim = scene.anims.create({ key: 'redEnemy'+directionName, frames: frameNames, frameRate: 20, repeat: -1 });
 
         this.anims.play(anim, false);
     }
